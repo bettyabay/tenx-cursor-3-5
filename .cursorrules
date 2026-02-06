@@ -1,0 +1,40 @@
+# Project Chimera - Autonomous AI Influencer System
+# MCP-Monitored SDD Environment
+
+## Project Context
+- This is Project Chimera: Autonomous AI Influencer using GitHub Spec Kit
+- Development is monitored via Tenx MCP Sense (ALWAYS connected)
+- We follow Spec-Driven Development strictly: No code without ratified specs
+
+## Prime Directives
+1. ALWAYS check specs/ directory before writing any code
+2. Use /speckit commands for all development phases
+3. Maintain MCP traceability - all decisions logged to MCP Sense
+4. Create failing tests before implementation (TDD)
+
+## Development Workflow
+1. Phase 1: /speckit.specify - Create baseline specifications
+2. Phase 2: /speckit.plan - Generate implementation plan  
+3. Phase 3: /speckit.tasks - Create actionable tasks
+4. Phase 4: /speckit.implement - Execute with AI assistance
+5. Phase 5: Run tests, commit, repeat
+
+## File Structure Rules
+- specs/: Source of truth (created by spec-kit)
+- tests/: Failing tests define implementation targets
+- skills/: Reusable agent capabilities with clear I/O contracts
+- mcp_servers/: External service connectors
+- .cursor/agent/: AI agent configuration
+
+## MCP Integration Requirements
+- All external calls must be through MCP servers
+- Log all agent decisions via MCP Sense
+- Include @mcp_log decorator on key functions
+- Never hardcode API keys - use MCP for secrets
+
+## Code Quality Standards
+- Type hints for all functions
+- Google-style docstrings
+- Async/await for I/O operations
+- Comprehensive error handling
+- Security scanning in CI/CD
