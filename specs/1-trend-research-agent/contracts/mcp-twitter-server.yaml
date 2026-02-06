@@ -1,0 +1,123 @@
+openapi: 3.0.0
+info:
+  title: Twitter MCP Server
+  description: MCP server for Twitter/X platform trend access
+  version: 1.0.0
+servers:
+  - url: mcp://twitter
+    description: Twitter MCP Server
+
+paths:
+  /tools/get_trending_topics:
+    post:
+      summary: Get trending topics from Twitter/X
+      operationId: getTrendingTopics
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                location:
+                  type: string
+                  description: Location/WOEID for trends (optional)
+                count:
+                  type: integer
+                  description: Number of trends to return (default: 10)
+      responses:
+        '200':
+          description: Trending topics retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  trends:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Trend'
+                  rate_limit:
+                    $ref: '#/components/schemas/RateLimit'
+
+  /tools/get_trend_details:
+    post:
+      summary: Get detailed trend analysis
+      operationId: getTrendDetails
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - trend_id
+              properties:
+                trend_id:
+                  type: string
+                  description: Platform trend identifier
+      responses:
+        '200':
+          description: Trend details retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrendDetails'
+
+components:
+  schemas:
+    Trend:
+      type: object
+      required:
+        - topic_name
+        - platform_trend_id
+        - engagement_metrics
+        - trend_velocity
+      properties:
+        topic_name:
+          type: string
+        platform_trend_id:
+          type: string
+        engagement_metrics:
+          type: object
+          properties:
+            likes:
+              type: integer
+            shares:
+              type: integer
+            comments:
+              type: integer
+        trend_velocity:
+          type: number
+        related_hashtags:
+          type: array
+          items:
+            type: string
+        timestamp:
+          type: string
+          format: date-time
+
+    TrendDetails:
+      allOf:
+        - $ref: '#/components/schemas/Trend'
+        - type: object
+          properties:
+            context:
+              type: string
+            key_influencers:
+              type: array
+              items:
+                type: string
+            engagement_patterns:
+              type: object
+
+    RateLimit:
+      type: object
+      properties:
+        remaining:
+          type: integer
+        reset_at:
+          type: string
+          format: date-time
+        limit:
+          type: integer
